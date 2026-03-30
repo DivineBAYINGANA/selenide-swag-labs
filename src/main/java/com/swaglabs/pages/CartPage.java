@@ -45,12 +45,6 @@ public class CartPage {
         return this;
     }
 
-    @Step("Remove first item from cart")
-    public CartPage removeFirstItem() {
-        removeButtons.first().shouldBe(visible).click();
-        return this;
-    }
-
     @Step("Remove all items from cart")
     public CartPage removeAllItems() {
         // Collect all remove button data-test values first, then click each
@@ -77,9 +71,8 @@ public class CartPage {
     }
 
     @Step("Verify cart is empty")
-    public CartPage verifyCartIsEmpty() {
+    public void verifyCartIsEmpty() {
         cartItems.shouldHave(com.codeborne.selenide.CollectionCondition.size(0));
-        return this;
     }
 
     @Step("Verify cart contains product '{productName}'")
@@ -95,18 +88,13 @@ public class CartPage {
     }
 
     @Step("Verify all items have quantity 1")
-    public CartPage verifyAllItemsQuantityIsOne() {
+    public void verifyAllItemsQuantityIsOne() {
         for (SelenideElement qty : itemQtys) {
             qty.shouldHave(exactText("1"));
         }
-        return this;
     }
 
     // ── Getters ───────────────────────────────────────────────────────────────
-
-    public ElementsCollection getCartItems()  { return cartItems;  }
-    public ElementsCollection getItemNames()  { return itemNames;  }
-    public ElementsCollection getItemPrices() { return itemPrices; }
     public int getItemCount()                 { return cartItems.size(); }
 
     public String getFirstItemName() {

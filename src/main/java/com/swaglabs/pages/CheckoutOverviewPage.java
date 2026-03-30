@@ -18,10 +18,7 @@ public class CheckoutOverviewPage {
     private final SelenideElement subtotalLabel = $(".summary_subtotal_label");
     private final SelenideElement taxLabel      = $(".summary_tax_label");
     private final SelenideElement totalLabel    = $(".summary_total_label");
-    private final SelenideElement paymentInfo   = $("[data-test='payment-info-value']");
-    private final SelenideElement shippingInfo  = $("[data-test='shipping-info-value']");
     private final ElementsCollection cartItems  = $$(".cart_item");
-    private final ElementsCollection itemNames  = $$(".inventory_item_name");
 
     @Step("Click Finish to complete the order")
     public CheckoutCompletePage finishOrder() {
@@ -45,9 +42,8 @@ public class CheckoutOverviewPage {
     }
 
     @Step("Verify item count in summary is {expectedCount}")
-    public CheckoutOverviewPage verifyItemCount(int expectedCount) {
+    public void verifyItemCount(int expectedCount) {
         cartItems.shouldHave(com.codeborne.selenide.CollectionCondition.size(expectedCount));
-        return this;
     }
 
     @Step("Verify total is not zero")
@@ -58,14 +54,13 @@ public class CheckoutOverviewPage {
     }
 
     @Step("Verify subtotal + tax equals total")
-    public CheckoutOverviewPage verifyTotalsMatch() {
+    public void verifyTotalsMatch() {
         double subtotal = getSubtotal();
         double tax      = getTax();
         double total    = getTotal();
         double expected = Math.round((subtotal + tax) * 100.0) / 100.0;
         assert Math.abs(expected - total) < 0.01
                 : "Expected total " + expected + " but got " + total;
-        return this;
     }
 
     // ── Getters ───────────────────────────────────────────────────────────────
@@ -88,6 +83,5 @@ public class CheckoutOverviewPage {
     public String getSubtotalText() { return subtotalLabel.getText(); }
     public String getTaxText()      { return taxLabel.getText();      }
     public String getTotalText()    { return totalLabel.getText();    }
-    public ElementsCollection getCartItems() { return cartItems;     }
-    public ElementsCollection getItemNames() { return itemNames;     }
+
 }

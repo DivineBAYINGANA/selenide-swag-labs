@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Regression Suite — Checkout flow.
- *
- * Covers:
+  * Covers:
  *   - Full happy-path checkout
  *   - Checkout field validations (missing first name, last name, zip)
  *   - Order summary — subtotal, tax, total maths

@@ -7,18 +7,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import org.openqa.selenium.chrome.ChromeOptions;
-
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 /**
  * Base test class.
- *
  * Responsibilities:
  *   - Configure Selenide browser, timeout, headless mode, and base URL.
  *   - Register the AllureSelenide listener (screenshots + page source on failure).
  *   - Close the WebDriver after each test.
- *
  * All test classes extend this class.
  */
 public abstract class BaseTest {
@@ -51,12 +47,6 @@ public abstract class BaseTest {
         // ── Headless (default: true so Docker/CI work without a display) ─────
         Configuration.headless = Boolean.parseBoolean(
                 System.getProperty("headless", "true"));
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
-        Configuration.browserCapabilities = options;
 
         // ── Base URL ─────────────────────────────────────────────────────────
         Configuration.baseUrl = "https://www.saucedemo.com";

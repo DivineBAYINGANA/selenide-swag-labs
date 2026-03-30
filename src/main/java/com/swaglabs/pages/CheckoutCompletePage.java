@@ -40,11 +40,7 @@ public class CheckoutCompletePage {
     }
 
     @Step("Verify dispatch confirmation text is shown")
-    public CheckoutCompletePage verifyDispatchText() {
+    public void verifyDispatchText() {
         completeText.shouldHave(text("Your order has been dispatched"));
-        return this;
     }
-
-    public String getHeaderText() { return completeHeader.getText(); }
-    public String getBodyText()   { return completeText.getText();   }
 }

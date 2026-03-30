@@ -23,7 +23,6 @@ public class ProductsPage {
     private final ElementsCollection inventoryItems = $$(".inventory_item");
     private final ElementsCollection itemNames      = $$(".inventory_item_name");
     private final ElementsCollection itemPrices     = $$(".inventory_item_price");
-    private final ElementsCollection addToCartBtns  = $$("[data-test^='add-to-cart']");
     private final ElementsCollection removeBtns     = $$("[data-test^='remove']");
 
     // ── Navigation ────────────────────────────────────────────────────────────
@@ -53,19 +52,6 @@ public class ProductsPage {
         return this;
     }
 
-    @Step("Add first product to cart")
-    public ProductsPage addFirstProductToCart() {
-        addToCartBtns.shouldHave(sizeGreaterThan(0));
-        addToCartBtns.first().click();
-        return this;
-    }
-
-    @Step("Add product at index {index} to cart (0-based)")
-    public ProductsPage addProductToCartByIndex(int index) {
-        addToCartBtns.get(index).shouldBe(visible).click();
-        return this;
-    }
-
     @Step("Remove first item from cart via products page")
     public ProductsPage removeFirstItemFromCart() {
         removeBtns.shouldHave(sizeGreaterThan(0));
@@ -74,9 +60,8 @@ public class ProductsPage {
     }
 
     @Step("Select sort option: {option}")
-    public ProductsPage selectSortOption(String option) {
+    public void selectSortOption(String option) {
         sortDropdown.shouldBe(visible).selectOptionByValue(option);
-        return this;
     }
 
     @Step("Open product detail for '{productName}'")
@@ -95,9 +80,8 @@ public class ProductsPage {
     }
 
     @Step("Verify product count is {expectedCount}")
-    public ProductsPage verifyProductCount(int expectedCount) {
+    public void verifyProductCount(int expectedCount) {
         inventoryItems.shouldHave(com.codeborne.selenide.CollectionCondition.size(expectedCount));
-        return this;
     }
 
     @Step("Verify cart badge shows {expectedCount}")
@@ -107,35 +91,18 @@ public class ProductsPage {
     }
 
     @Step("Verify cart badge is not visible (cart is empty)")
-    public ProductsPage verifyCartIsEmpty() {
+    public void verifyCartIsEmpty() {
         cartBadge.shouldNotBe(visible);
-        return this;
     }
 
     @Step("Verify first product name is '{expectedName}'")
-    public ProductsPage verifyFirstProductName(String expectedName) {
+    public void verifyFirstProductName(String expectedName) {
         itemNames.first().shouldHave(exactText(expectedName));
-        return this;
     }
 
     // ── Getters ───────────────────────────────────────────────────────────────
 
-    public ElementsCollection getInventoryItems() { return inventoryItems; }
-    public ElementsCollection getItemNames()       { return itemNames;       }
-    public ElementsCollection getItemPrices()      { return itemPrices;      }
-    public SelenideElement    getCartBadge()        { return cartBadge;       }
     public String             getPageTitle()        { return pageTitle.getText(); }
-
-    public int getCartCount() {
-        if (cartBadge.isDisplayed()) {
-            return Integer.parseInt(cartBadge.getText());
-        }
-        return 0;
-    }
-
-    public String getFirstItemName() {
-        return itemNames.first().getText();
-    }
 
     public double getFirstItemPrice() {
         String raw = itemPrices.first().getText().replace("$", "");

@@ -9,8 +9,6 @@ import io.qameta.allure.*;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Regression Suite — Cart functionality.
  *

@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Smoke Suite — Product page scenarios.
- *
  * Covers:
  *   - Products page loads correctly
  *   - Product count

@@ -13,10 +13,6 @@ public final class TestData {
 
     // ── Valid Users ───────────────────────────────────────────────────────────
     public static final String STANDARD_USER     = "standard_user";
-    public static final String PROBLEM_USER       = "problem_user";
-    public static final String PERFORMANCE_USER   = "performance_glitch_user";
-    public static final String ERROR_USER         = "error_user";
-    public static final String VISUAL_USER        = "visual_user";
 
     // ── Locked-out User ───────────────────────────────────────────────────────
     public static final String LOCKED_OUT_USER    = "locked_out_user";
@@ -37,8 +33,8 @@ public final class TestData {
             "Epic sadface: Password is required";
 
     // ── Checkout Info ─────────────────────────────────────────────────────────
-    public static final String FIRST_NAME  = "Gift";
-    public static final String LAST_NAME   = "Burabyo";
+    public static final String FIRST_NAME  = "Divine";
+    public static final String LAST_NAME   = "Bayingana";
     public static final String POSTAL_CODE = "KG 100";
 
     // ── Products ──────────────────────────────────────────────────────────────
@@ -58,8 +54,4 @@ public final class TestData {
 
     // ── Page Titles ───────────────────────────────────────────────────────────
     public static final String TITLE_PRODUCTS          = "Products";
-    public static final String TITLE_YOUR_CART         = "Your Cart";
-    public static final String TITLE_CHECKOUT_INFO     = "Checkout: Your Information";
-    public static final String TITLE_CHECKOUT_OVERVIEW = "Checkout: Overview";
-    public static final String TITLE_CHECKOUT_COMPLETE = "Checkout: Complete!";
 }

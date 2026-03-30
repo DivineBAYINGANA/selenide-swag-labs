@@ -73,11 +73,9 @@ public class CheckoutStepOnePage {
     }
 
     @Step("Verify error message: {expectedText}")
-    public CheckoutStepOnePage verifyErrorMessage(String expectedText) {
+    public void verifyErrorMessage(String expectedText) {
         errorContainer.shouldBe(visible).shouldHave(text(expectedText));
-        return this;
     }
 
     public boolean isErrorDisplayed() { return errorContainer.isDisplayed(); }
-    public String  getErrorText()     { return errorContainer.getText();      }
 }

@@ -31,17 +31,15 @@ public class LoginPage {
     // ── Actions ───────────────────────────────────────────────────────────────
 
     @Step("Enter username: {username}")
-    public LoginPage enterUsername(String username) {
+    public void enterUsername(String username) {
         usernameInput.shouldBe(visible).clear();
         usernameInput.setValue(username);
-        return this;
     }
 
     @Step("Enter password")
-    public LoginPage enterPassword(String password) {
+    public void enterPassword(String password) {
         passwordInput.shouldBe(visible).clear();
         passwordInput.setValue(password);
-        return this;
     }
 
     @Step("Click the Login button")
@@ -72,9 +70,8 @@ public class LoginPage {
     }
 
     @Step("Dismiss the error message")
-    public LoginPage dismissError() {
+    public void dismissError() {
         errorButton.shouldBe(visible).click();
-        return this;
     }
 
     // ── Assertions ────────────────────────────────────────────────────────────
@@ -89,20 +86,17 @@ public class LoginPage {
     }
 
     @Step("Verify error message contains: {expectedText}")
-    public LoginPage verifyErrorMessage(String expectedText) {
+    public void verifyErrorMessage(String expectedText) {
         errorContainer.shouldBe(visible).shouldHave(text(expectedText));
-        return this;
     }
 
     @Step("Verify error message is not displayed")
-    public LoginPage verifyNoError() {
+    public void verifyNoError() {
         errorContainer.shouldNotBe(visible);
-        return this;
     }
 
     // ── Getters (for soft assertion use in tests) ─────────────────────────────
 
-    public SelenideElement getErrorContainer() { return errorContainer; }
     public SelenideElement getUsernameInput()   { return usernameInput;  }
     public SelenideElement getPasswordInput()   { return passwordInput;  }
     public boolean isErrorDisplayed()           { return errorContainer.isDisplayed(); }

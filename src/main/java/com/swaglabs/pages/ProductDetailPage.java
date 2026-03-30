@@ -19,8 +19,6 @@ public class ProductDetailPage {
     private final SelenideElement addToCartBtn  = $("[data-test^='add-to-cart']");
     private final SelenideElement removeBtn     = $("[data-test^='remove']");
     private final SelenideElement backButton    = $("#back-to-products");
-    private final SelenideElement cartBadge     = $(".shopping_cart_badge");
-    private final SelenideElement cartLink      = $(".shopping_cart_link");
 
     // ── Actions ───────────────────────────────────────────────────────────────
 
@@ -30,22 +28,10 @@ public class ProductDetailPage {
         return this;
     }
 
-    @Step("Remove product from cart via detail page")
-    public ProductDetailPage removeFromCart() {
-        removeBtn.shouldBe(visible).click();
-        return this;
-    }
-
     @Step("Go back to products list")
     public ProductsPage goBack() {
         backButton.shouldBe(visible).click();
         return new ProductsPage();
-    }
-
-    @Step("Navigate to cart from detail page")
-    public CartPage goToCart() {
-        cartLink.shouldBe(visible).click();
-        return new CartPage();
     }
 
     // ── Assertions ────────────────────────────────────────────────────────────
@@ -61,21 +47,8 @@ public class ProductDetailPage {
     }
 
     @Step("Verify product name is '{expectedName}'")
-    public ProductDetailPage verifyProductName(String expectedName) {
+    public void verifyProductName(String expectedName) {
         productName.shouldHave(exactText(expectedName));
-        return this;
-    }
-
-    @Step("Verify price starts with '$'")
-    public ProductDetailPage verifyPriceFormat() {
-        productPrice.shouldHave(matchText("^\\$[0-9]+(\\.[0-9]{2})?$"));
-        return this;
-    }
-
-    @Step("Verify 'Add to cart' button is visible")
-    public ProductDetailPage verifyAddToCartVisible() {
-        addToCartBtn.shouldBe(visible);
-        return this;
     }
 
     @Step("Verify 'Remove' button is visible after adding to cart")

@@ -1,22 +1,16 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # docker-compose.yml — Swag Labs Selenide Tests with Selenium Grid
 #
-# Services:
-#   selenium-hub   : Selenium Grid Hub
-#   chrome-node    : Chrome browser node registered with the hub
-#   test-runner    : Maven/JUnit test runner pointing at the grid
+# STEP 1 — Run the tests and generate the report:
+#   docker compose up --build --abort-on-container-exit selenium-hub chrome-node test-runner
 #
-# Usage:
-#   docker compose up --build --abort-on-container-exit
+# STEP 2 — Open the report (run after Step 1 finishes):
+#   docker compose up allure-report
+#   Then open: http://localhost:8080
 #
-# To run only smoke tests:
-#   SUITE=smoke docker compose up --build --abort-on-container-exit
-#
-# Allure results are written to ./target/allure-results on the host
-# via the mounted volume.
+# Run smoke only:
+#   SUITE=smoke docker compose up --build --abort-on-container-exit selenium-hub chrome-node test-runner
 # ─────────────────────────────────────────────────────────────────────────────
-version: "3.8"
-
 services:
 
   # ── Selenium Grid Hub ───────────────────────────────────────────────────────
@@ -24,9 +18,9 @@ services:
     image: selenium/hub:4.18.1
     container_name: selenium-hub
     ports:
-      - "4442:4442"   # event bus publisher
-      - "4443:4443"   # event bus subscriber
-      - "4444:4444"   # Grid UI / WebDriver endpoint
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
     environment:
       - SE_SESSION_REQUEST_TIMEOUT=300
     healthcheck:
@@ -49,8 +43,8 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=4
       - SE_NODE_SESSION_TIMEOUT=300
-      - START_XVFB=false            # headless; no virtual display needed
-    shm_size: "2gb"                 # prevents Chrome OOM in containers
+      - START_XVFB=false
+    shm_size: "2gb"
     volumes:
       - /dev/shm:/dev/shm
 
@@ -66,17 +60,22 @@ services:
     environment:
       - HEADLESS=true
       - BROWSER=chrome
-      - SUITE=${SUITE:-}            # set SUITE=smoke or SUITE=regression to filter
-      # Point Selenide at the remote Grid hub
+      - SUITE=${SUITE:-}
       - SELENIDE_REMOTE=http://selenium-hub:4444/wd/hub
     volumes:
-      # Expose Allure results to host so reports can be generated after the run
+      # Expose the generated report back to the host
       - ./target:/app/target
-    entrypoint: ["sh", "-c",
-      "if [ -n \"$SUITE\" ]; then \
-         mvn test -P$SUITE -Dheadless=$HEADLESS -Dbrowser=$BROWSER \
-           -Dselenide.remote=$SELENIDE_REMOTE --no-transfer-progress; \
-       else \
-         mvn test -Dheadless=$HEADLESS -Dbrowser=$BROWSER \
-           -Dselenide.remote=$SELENIDE_REMOTE --no-transfer-progress; \
-       fi"]
+
+  # ── Allure Report (nginx) ───────────────────────────────────────────────────
+  # Run AFTER Step 1 completes: docker compose up allure-report
+  # Then open http://localhost:8080
+  allure-report:
+    image: nginx:alpine
+    container_name: allure-report
+    ports:
+      - "8080:80"
+    volumes:
+      # Point directly at the generated HTML report folder, not the whole target dir
+      - ./target/allure-report:/usr/share/nginx/html:ro
+    profiles:
+      - report

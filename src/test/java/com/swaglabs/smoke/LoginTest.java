@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Smoke Suite — Login scenarios.
- *
  * Covers:
  *   - Happy-path login with valid credentials
  *   - Locked-out user
